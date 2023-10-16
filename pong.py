@@ -114,6 +114,8 @@ def main():
         keys = pygame.key.get_pressed()
         handle_paddle_movement(keys, left_paddle, right_paddle)
 
+        ball.move()
+
     pygame.quit()
 
 if __name__ == '__main__':
