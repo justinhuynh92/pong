@@ -12,6 +12,8 @@ FPS = 60
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
+PADDLE_WIDTH, PADDLE_HEIGHT = 20, 100
+
 # create the paddles
 class Paddle:
     COLOR = WHITE
@@ -25,12 +27,16 @@ class Paddle:
     # write a method on paddle, funtion you can call on
     def draw(self, win):
         # pass where you want to draw (window) it and the color
-        pygame.draw.rectangle(win, self.COLOR, (self.x, self.y, self.width, self.height))
+        pygame.draw.rect(win, self.COLOR, (self.x, self.y, self.width, self.height))
 
 # implement drawing with color
-def draw(win):
+def draw(win, paddles):
     # update entire window with white
     win.fill(BLACK)
+
+    for paddle in paddles:
+        paddle.draw(win)
+
     pygame.display.update()
 
 # main loop to display the window
@@ -39,9 +45,13 @@ def main():
     # regulate the frame rate of the game
     clock = pygame.time.Clock()
 
+    # pass x, y, width, and height
+    left_paddle = Paddle(10, HEIGHT//2 - PADDLE_HEIGHT//2, PADDLE_WIDTH, PADDLE_HEIGHT)
+    right_paddle = Paddle(WIDTH - 10 - PADDLE_WIDTH, HEIGHT//2 - PADDLE_HEIGHT//2, PADDLE_WIDTH, PADDLE_HEIGHT)
+
     while run:
         clock.tick(FPS)
-        draw(WIN)
+        draw(WIN, [left_paddle, right_paddle])
         # checks for all events being made within the window
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
