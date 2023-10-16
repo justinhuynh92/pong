@@ -37,6 +37,21 @@ class Paddle:
         else:
             self.y += self.VEL
 
+# create the ball
+class Ball:
+    MAX_VEL = 5
+
+    def __init__(self, x, y, radius):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.x_vel = MAX_VEL
+        self.y_vel = 0
+
+    def draw(self, win):
+        # pass the win, color and radius
+        pygame.draw.circle(win, self.COLOR, (self.x, self.y), self.radius)
+
 # implement drawing with color
 def draw(win, paddles):
     # update entire window with white
