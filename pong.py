@@ -9,6 +9,15 @@ pygame.display.set_caption("Pong")
 # define frames per second
 FPS = 60
 
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+# implement drawing with color
+def draw(win):
+    # update entire window with white
+    win.fill(WHITE)
+    pygame.display.update()
+
 # main loop to display the window
 def main():
     run = True
@@ -17,6 +26,7 @@ def main():
 
     while run:
         clock.tick(FPS)
+        draw(WIN)
         # checks for all events being made within the window
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
