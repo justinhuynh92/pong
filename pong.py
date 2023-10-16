@@ -45,6 +45,12 @@ def draw(win, paddles):
     for paddle in paddles:
         paddle.draw(win)
 
+    # draw line in the middle of the screen
+    for i in range(10, HEIGHT, HEIGHT//20):
+        if i % 2 == 1:
+            continue
+        pygame.draw.rect(win, WHITE, (WIDTH//2 - 5, i, 10, HEIGHT//20))
+
     pygame.display.update()
 
 # move paddles up and down
