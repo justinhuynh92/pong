@@ -17,6 +17,7 @@ PADDLE_WIDTH, PADDLE_HEIGHT = 20, 100
 # create the paddles
 class Paddle:
     COLOR = WHITE
+    VEL = 4
 
     def __init__(self, x, y, width, height):
         self.x = x
@@ -28,6 +29,13 @@ class Paddle:
     def draw(self, win):
         # pass where you want to draw (window) it and the color
         pygame.draw.rect(win, self.COLOR, (self.x, self.y, self.width, self.height))
+
+    # call method on the paddle if up is true
+    def move(self, up=True):
+        if up:
+            self.y -= self.VEL
+        else:
+            self.y += self.VEL
 
 # implement drawing with color
 def draw(win, paddles):
@@ -57,6 +65,8 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
                 break
+
+        keys = pygame.key.get_pressed()
 
     pygame.quit()
 
