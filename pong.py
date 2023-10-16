@@ -12,10 +12,25 @@ FPS = 60
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
+# create the paddles
+class Paddle:
+    COLOR = WHITE
+
+    def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+
+    # write a method on paddle, funtion you can call on
+    def draw(self, win):
+        # pass where you want to draw (window) it and the color
+        pygame.draw.rectangle(win, self.COLOR, (self.x, self.y, self.width, self.height))
+
 # implement drawing with color
 def draw(win):
     # update entire window with white
-    win.fill(WHITE)
+    win.fill(BLACK)
     pygame.display.update()
 
 # main loop to display the window
