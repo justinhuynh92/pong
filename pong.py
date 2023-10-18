@@ -16,6 +16,7 @@ PADDLE_WIDTH, PADDLE_HEIGHT = 20, 100
 BALL_RADIUS = 7
 
 SCORE_FONT = pygame.font.SysFont("comicsans", 50)
+WINNING_SCORE = 10
 
 # create the paddles
 class Paddle:
@@ -23,8 +24,8 @@ class Paddle:
     VEL = 4
 
     def __init__(self, x, y, width, height):
-        self.x = x
-        self.y = y
+        self.x = self.original_x = x
+        self.y = self.original_y = y
         self.width = width
         self.height = height
 
@@ -40,14 +41,18 @@ class Paddle:
         else:
             self.y += self.VEL
 
+    def reset(self):
+        self.x = self.original_x
+        self.y = self.original_y
+
 # create the ball
 class Ball:
     MAX_VEL = 5
     COLOR = WHITE
 
     def __init__(self, x, y, radius):
-        self.x = x
-        self.y = y
+        self.x = self.original_x = x
+        self.y = self.original_y = y
         self.radius = radius
         self.x_vel = self.MAX_VEL
         self.y_vel = 0
@@ -60,6 +65,13 @@ class Ball:
     def move(self):
         self.x += self.x_vel
         self.y += self.y_vel
+
+    # reset ball
+    def reset(self):
+        self.x = self.original_x
+        self.y = self.original_y
+        self.y_vel = 0
+        self.x_vel *= -1
 
 # implement drawing with color
 def draw(win, paddles, ball, left_score, right_score):
@@ -160,9 +172,32 @@ def main():
 
         # keeping score by adding 1 to each win
         if ball.x < 0:
-            right_score +=1
+            right_score += 1
+            ball.reset()
         elif ball.x > WIDTH:
             left_score += 1
+            ball.reset()
+
+        # implement winning the game
+        won = False
+        if left_score >= WINNING_SCORE:
+            won = True
+            win_text = "Left Player Won!"
+        elif right_score >= WINNING_SCORE:
+            won = True
+            win_text = "Right Player Won!"
+
+        # reset if someone wins
+        if won:
+            text = SCORE_FONT.render(win_text, 1, WHITE)
+            WIN.blit(text, (WIDTH//2 - text.get_width()//2, HEIGHT//2 - text.get_height()//2))
+            pygame.display.update()
+            pygame.time.delay(5000)
+            ball.reset()
+            left_paddle.reset()
+            right_paddle.reset()
+            left_score = 0
+            right_score = 0
 
     pygame.quit()
 
