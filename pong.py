@@ -83,6 +83,16 @@ def handle_collision(ball, left_paddle, right_paddle):
     elif ball.y - ball.radius <= 0:
         ball.y_vel *= -1
 
+    # check if the ball is colliding with the paddles
+    if ball.x_vel < 0:
+        if ball.y >= left_paddle.y and ball.y <= left_paddle.y + left_paddle.height:
+            if ball.x - ball.radius <= left_paddle.x + left_paddle.width:
+                ball.x_vel *= -1
+    else:
+        if ball.x >= right_paddle.y and ball.x <= right_paddle.x + right_paddle.height:
+            if ball.x + ball.radius >= right_paddle.x:
+                ball.x_vel *= -1
+
 # move paddles up and down
 def handle_paddle_movement(keys, left_paddle, right_paddle):
     # prevent paddles from moving off screen
@@ -122,6 +132,7 @@ def main():
         handle_paddle_movement(keys, left_paddle, right_paddle)
 
         ball.move()
+        handle_collision(ball, left_paddle, right_paddle)
 
     pygame.quit()
 
